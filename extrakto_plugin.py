@@ -46,6 +46,7 @@ DEFAULT_OPTIONS = {
     "@extrakto_insert_key": "tab",
     "@extrakto_open_key": "ctrl-o",
     "@extrakto_open_tool": "auto",
+    "@extrakto_fzf_options": "",
 }
 
 
@@ -112,6 +113,7 @@ class ExtraktoPlugin:
         self.fzf_header = get_option("@extrakto_fzf_header")
         self.fzf_layout = get_option("@extrakto_fzf_layout")
         self.fzf_tool = get_option("@extrakto_fzf_tool")
+        self.fzf_options = get_option("@extrakto_fzf_options")
         self.grab_area = get_option("@extrakto_grab_area")
         self.grab_key = get_option("@extrakto_grab_key")
         self.help_key = get_option("@extrakto_help_key")
@@ -310,7 +312,9 @@ class ExtraktoPlugin:
                     "--tiebreak=index",
                     f"--layout={self.fzf_layout}",
                     "--no-info",
+                    *self.fzf_options.split(),
                 ]
+
                 query, key, *selection = fzf_sel(
                     fzf_cmd,
                     get_cap(mode, self.capture_panes()),
